@@ -15,12 +15,6 @@ import java.util.*;
 @Controller
 public class ThymeleafController {
 
-    @GetMapping(value = "/")
-    @ResponseBody
-    public String show() {
-        return "hello world!!";
-    }
-
     /**
      * 跳转到static目录
      */

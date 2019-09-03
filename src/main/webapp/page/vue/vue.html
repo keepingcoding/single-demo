@@ -7,14 +7,15 @@
 <body>
 
 <div id="app">
-
-    <span>{{message}}</span>
+    <input type="text" v-model="message"/>
+    <br/>
+    <span>{{ message }}</span>
 </div>
 
 
-<script src="/static/js/vue/vue.min.js"></script>
+<script src="/js/public/vue.min.js"></script>
 <script>
-    var app = new Vue({
+    let app = new Vue({
         el: '#app',
         data: {
             message: 'Hello Vue!'

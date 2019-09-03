@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="uploadApp">
+
+    <!--
+    <span>姓名：</span><input type="text" v-model="bean.name"/><br/>
+    <span>年龄：</span><input type="text" v-model="bean.age"/><br/>
+    -->
+    <input type="file"/><br/><br/><br/>
+    <button @click="goUpload" style="width: 80px;height: 30px;">提交</button>
+
+
+
+
+</div>
+
+<script src="/js/public/vue.min.js"></script>
+<script src="/js/public/axios.min.js"></script>
+
+<script>
+    let app = new Vue({
+        el: '#uploadApp',
+        data: {
+            bean: {}
+        },
+        methods: {
+            verifyFile: (file) => {
+                if (file == null) {
+                    alert('请上传营业执照！');
+                    return false;
+                }
+                let img_regexp = /^image\/\w+/g;
+                if (!img_regexp.test(file.type)) {
+                    alert('上传的不是图片，请重新选择！');
+                    return false;
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('上传的图片大于5MB，请重新选择！');
+                    return false;
+                }
+                return true;
+            },
+            goUpload: () => {
+                let file = document.querySelector('input[type=file]').files[0];
+                //if(!app.verifyFile(file)){
+                //    return;
+                //}
+                let list = {
+                    "name": app.bean.name,
+                    "age": app.bean.age
+                };
+
+                let formData = new window.FormData();
+                //formData.append("formData", new Blob([JSON.stringify(list)], {type: "application/json"}));
+                formData.append('multipartFile', file);
+                axios({
+                    method: "POST",
+                    url: "/uploadFile",
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    data: formData
+                }).then(function (res) {
+                    console.log(res)
+                }).catch(function (err) {
+                    console.log(err)
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>
