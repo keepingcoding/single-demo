@@ -1,19 +1,23 @@
 package com.example.demo.web.controller;
 
 import com.example.demo.web.bean.FormData;
+import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 /**
@@ -33,21 +37,127 @@ public class CommonFileController {
      * @param multipartFile
      * @return
      */
-    @PostMapping("/uploadFile")
+    @PostMapping("/upload")
     @ResponseBody
     public String uploadFile(@RequestParam("file") MultipartFile multipartFile) {
         if (multipartFile == null) {
-            return "null";
+            return null;
         }
 
-        copyFile(multipartFile);
-        return "success";
+        return copyFile(multipartFile);
     }
 
     @PostMapping("/uploadFileAndData")
     public void uploadFileWithFormData(FormData formData) {
 
     }
+
+    /**
+     * 文件下载
+     *
+     * @param fileName
+     * @param request
+     * @param response
+     * @return
+     */
+    @PostMapping("/postDownload")
+    @ResponseBody
+    public void downloadFileByPost(@RequestBody String fileName, HttpServletRequest request, HttpServletResponse response) {
+        if (StringUtils.isBlank(fileName)) {
+            return;
+        }
+
+        String parentPath = getParentPath();
+        File file = new File(parentPath, fileName);
+        if (!file.exists()) {
+            return;
+        }
+
+        BufferedInputStream bis = null;
+        try {
+            response.setContentType("application/octet-stream");
+            response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "UTF-8"));// 设置文件名
+
+            byte[] buffer = new byte[1024];
+            bis = new BufferedInputStream(new FileInputStream(file));
+            OutputStream os = response.getOutputStream();
+            int i = -1;
+            while ((i = bis.read(buffer)) != -1) {
+                os.write(buffer, 0, i);
+            }
+            os.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bis.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    @GetMapping("/getDownload")
+    public void downloadFileByGet(@RequestParam String fileName, HttpServletRequest request, HttpServletResponse response) {
+        if (StringUtils.isBlank(fileName)) {
+            return;
+        }
+
+        String parentPath = getParentPath();
+        File file = new File(parentPath, fileName);
+        if (!file.exists()) {
+            return;
+        }
+
+        BufferedInputStream bis = null;
+        try {
+            response.setContentType("application/octet-stream");
+            //response.setContentType("application/force-download");
+            response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "UTF-8"));// 设置文件名
+
+            byte[] buffer = new byte[1024];
+            bis = new BufferedInputStream(new FileInputStream(file));
+            OutputStream os = response.getOutputStream();
+            int i = -1;
+            while ((i = bis.read(buffer)) != -1) {
+                os.write(buffer, 0, i);
+            }
+            os.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bis.close();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    @GetMapping("/download2")
+    public ResponseEntity<Object> downloadFile2(@RequestParam String fileName) {
+        String parentPath = getParentPath();
+        File file = new File(parentPath, fileName);
+        InputStreamResource resource = null;
+        try {
+            resource = new InputStreamResource(new FileInputStream(file));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", String.format("attachment;filename=\"%s", fileName));
+        headers.add("Cache-Control", "no-cache,no-store,must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        ResponseEntity<Object> responseEntity = ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+
+        return responseEntity;
+    }
+
 
     /**
      * 保存文件
