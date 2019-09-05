@@ -1,4 +1,4 @@
-package com.example.demo.web.bean;
+package com.example.demo.web.upload;
 
 import lombok.Data;
 

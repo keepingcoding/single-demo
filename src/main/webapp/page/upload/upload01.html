@@ -86,18 +86,31 @@
                     data: app.saveFileName,
                     responseType: 'blob'
                 }).then((res) => {
+                    console.log(res)
                     let blob = res.data;
-                    let reader = new FileReader();
-                    reader.readAsDataURL(blob);
-                    reader.onload = (e) => {
-                        //todo 大文件没有下载弹框，待验证
-                        let a = document.createElement('a');
-                        a.download = app.saveFileName;
-                        a.href = e.target.result;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                    }
+                    // 创建一个URL指向Blob，也就是Blob URL
+                    let url = window.URL.createObjectURL(blob);
+                    // 创建<a>标签
+                    let el = document.createElement('a');
+                    el.href = url;
+                    // 指定下载的文件名
+                    el.download = app.saveFileName;
+                    el.hidden = true;
+                    document.body.appendChild(el);
+                    el.click();
+                    document.body.removeChild(el);
+
+                    //let reader = new FileReader();
+                    //reader.readAsDataURL(blob);
+                    //reader.onload = (e) => {
+                    //    //todo 大文件没有下载弹框，待求证
+                    //    let a = document.createElement('a');
+                    //    a.download = app.saveFileName;
+                    //    a.href = e.target.result;
+                    //    document.body.appendChild(a);
+                    //    a.click();
+                    //    document.body.removeChild(a);
+                    //}
                 }).catch((err) => {
                     console.log(err);
                 });

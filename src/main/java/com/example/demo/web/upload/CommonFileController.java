@@ -1,7 +1,5 @@
-package com.example.demo.web.controller;
+package com.example.demo.web.upload;
 
-import com.example.demo.web.bean.FormData;
-import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
