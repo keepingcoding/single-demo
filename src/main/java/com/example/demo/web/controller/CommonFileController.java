@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -40,16 +42,27 @@ public class CommonFileController {
     @PostMapping("/upload")
     @ResponseBody
     public String uploadFile(@RequestParam("file") MultipartFile multipartFile) {
-        if (multipartFile == null) {
-            return null;
-        }
 
         return copyFile(multipartFile);
     }
 
-    @PostMapping("/uploadFileAndData")
-    public void uploadFileWithFormData(FormData formData) {
+    @PostMapping("/uploadFiles")
+    @ResponseBody
+    public List<String> uploadFiles(@RequestParam("file") MultipartFile[] multipartFiles) {
+        List<String> resultList = new ArrayList<>();
 
+        for (MultipartFile multipartFile : multipartFiles) {
+            String s = copyFile(multipartFile);
+            resultList.add(s);
+        }
+        return resultList;
+    }
+
+    @PostMapping("/uploadFileAndData")
+    @ResponseBody
+    public String uploadFileWithFormData(@RequestPart("formData") FormData formData, @RequestPart("file") MultipartFile multipartFile) {
+        System.err.println(formData);
+        return copyFile(multipartFile);
     }
 
     /**
