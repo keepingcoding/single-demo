@@ -6,6 +6,12 @@
     	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
+    <!-- DataSource -->
+    <!--
+    <import resource="spring-dao.xml"/>
+    <import resource="spring-beanContext.xml"/>
+    -->
+
     <!-- RabbitMQ start -->
 
     <!--

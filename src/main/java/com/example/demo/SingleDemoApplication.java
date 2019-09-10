@@ -13,8 +13,11 @@ import org.springframework.context.annotation.PropertySource;
 /**
  * @author zzs
  */
-@MapperScan(basePackages = "com.example.demo.mybatis.dao")
-@SpringBootApplication(exclude = {RabbitAutoConfiguration.class})
+//@MapperScan(basePackages = "com.example.demo.mybatis.dao")
+@SpringBootApplication(exclude = {
+        DataSourceAutoConfiguration.class,
+        RabbitAutoConfiguration.class
+})
 @ImportResource(locations = {"classpath*:applicationContext.xml"})
 @PropertySource(value = {"classpath:config.properties"}, ignoreResourceNotFound = true)
 public class SingleDemoApplication {
