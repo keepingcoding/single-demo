@@ -31,6 +31,7 @@ public class PrimaryDataSourceConfig {
         return DruidDataSourceBuilder.create().build();
     }
 
+    @Primary
     @Bean(name = "primaryJdbcTemplate")
     public JdbcTemplate primaryJdbcTemplate(@Qualifier("primaryDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
