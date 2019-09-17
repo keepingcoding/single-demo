@@ -16,6 +16,9 @@ import java.util.Date;
  */
 public class CommonConverter {
 
+    private CommonConverter() {
+    }
+
     public static String stringValueOf(Object val) {
         if (val == null) {
             return null;
