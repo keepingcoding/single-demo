@@ -1,7 +1,6 @@
 package com.example.demo.web.upload;
 
 import com.google.common.io.Files;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -73,7 +73,7 @@ public class CommonFileController {
      */
     @PostMapping("/postDownload")
     public void downloadFileByPost(@RequestBody String fileName, HttpServletRequest request, HttpServletResponse response) {
-        if (StringUtils.isBlank(fileName)) {
+        if (!StringUtils.hasText(fileName)) {
             return;
         }
 
@@ -108,7 +108,7 @@ public class CommonFileController {
 
     @GetMapping("/getDownload")
     public void downloadFileByGet(@RequestParam String fileName, HttpServletRequest request, HttpServletResponse response) {
-        if (StringUtils.isBlank(fileName)) {
+        if (!StringUtils.hasText(fileName)) {
             return;
         }
 
@@ -198,7 +198,7 @@ public class CommonFileController {
     private String getParentPath() {
         String parentPath = "";
         //默认存储classpath目录，可修改为可配置
-        if (StringUtils.isBlank(baseStoreDir)) {
+        if (!StringUtils.hasText(baseStoreDir)) {
             String rootUri = ClassUtils.getDefaultClassLoader().getResource("").getPath();
             parentPath = rootUri + File.separator + "upload" + File.separator + "base";
         } else {
@@ -207,6 +207,6 @@ public class CommonFileController {
         return parentPath;
     }
 
-    @Value("${com.example.demo.baseStoreDir:''}")
+    @Value("${com.example.demo.base-store-dir:''}")
     private String baseStoreDir;
 }
