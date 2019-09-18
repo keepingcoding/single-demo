@@ -10,9 +10,7 @@
 		<Property name="logfile.arch.path">${sys:log4j.logfile.path:-/data/logs/access}/${artifactId}/${date:yyyy-MM}</Property>
 		<Property name="logfile.arch.suffix">%d{yyyy-MM-dd}-%i.log.gz</Property>
 		<Property name="logfile.pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${sys:PID} --- [%15.15t] %-40.40c{1.} : %m%n%xwEx</Property>
-		<!--<Property name="logfile.pattern">%d{HH:mm:ss.SSS} &lt;%c&gt; %5p [%t]: %m%n</Property>-->
 		<Property name="timestamp.pattern">%d{yyyy-MM-dd HH:mm:ss.SSS}{GMT+0}</Property>
-		<Property name="daologger.pattern">com\.lcb\.soa\..*\.dao\..+</Property>
 	</Properties>
 
 	<Appenders>
@@ -34,14 +32,6 @@
 
 			<DefaultRolloverStrategy />
 		</RollingRandomAccessFile>
-		<RollingRandomAccessFile name="JOB_LOG_FILE" fileName="${logfile.path}/job.log"
-								 filePattern="${logfile.arch.path}/job-${logfile.arch.suffix}">
-			<PatternLayout pattern="${logfile.pattern}"/>
-			<Policies>
-				<TimeBasedTriggeringPolicy />
-			</Policies>
-			<DefaultRolloverStrategy />
-		</RollingRandomAccessFile>
 
 	</Appenders>
 
@@ -53,13 +43,8 @@
 		</Root>
 
 		<!-- additivity="false"只在自定义的Appender中进行输出 -->
-		<Logger name="LMonitor" level="INFO" additivity="false">
-			<AppenderRef ref="MONITOR_LOG_FILE" />
-		</Logger>
-
 		<!-- Base Logger -->
 		<Logger name="${base.package}" level="${log.level}" additivity="false">
-			<LoggerNameFilter name="${daologger.pattern}" level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
 			<AppenderRef ref="STDERR"/>
 			<AppenderRef ref="SERVICE_LOG_FILE" />
 		</Logger>
