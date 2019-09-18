@@ -144,28 +144,12 @@ public class CommonFileController {
 
     @GetMapping("/download2")
     public ResponseEntity<Object> downloadFile2(@RequestParam String fileName) {
-        String parentPath = getParentPath();
-        File file = new File(parentPath, fileName);
-        InputStreamResource resource = null;
-        try {
-            resource = new InputStreamResource(new FileInputStream(file));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return downloadFile(fileName);
+    }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", String.format("attachment;filename=\"%s", fileName));
-        headers.add("Cache-Control", "no-cache,no-store,must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
-
-        ResponseEntity<Object> responseEntity = ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(file.length())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(resource);
-
-        return responseEntity;
+    @RequestMapping("/download3")
+    public ResponseEntity<Object> downloadFile3(@RequestBody String fileName) {
+        return downloadFile(fileName);
     }
 
 
@@ -193,6 +177,31 @@ public class CommonFileController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private ResponseEntity<Object> downloadFile(String fileName){
+        String parentPath = getParentPath();
+        File file = new File(parentPath, fileName);
+        InputStreamResource resource = null;
+        try {
+            resource = new InputStreamResource(new FileInputStream(file));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", String.format("attachment;filename=\"%s", fileName));
+        headers.add("Cache-Control", "no-cache,no-store,must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        ResponseEntity<Object> responseEntity = ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+
+        return responseEntity;
     }
 
     private String getParentPath() {
