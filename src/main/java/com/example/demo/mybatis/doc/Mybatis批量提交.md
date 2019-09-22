@@ -56,7 +56,8 @@ insert into person ( id, `name`, age, phone, address, created_time, updated_time
 
 Mybatis内置的ExecutorType有3种，默认的是simple，该模式下它为每个语句的执行创建一个新的预处理语句，单条提交sql；而batch模式重复使用已经预处理的语句，并且批量执行所有更新语句，显然batch性能将更优；
 
-这时需要手动控制事务。
+批量提交只能应用于 insert, update, delete
+这里我们手动控制事务。
 
 
 

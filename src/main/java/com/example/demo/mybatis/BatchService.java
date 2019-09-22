@@ -47,8 +47,8 @@ public class BatchService {
                 mapper.insertSelective(new PersonModel());
             }
             sqlSession.commit();
-            // 清理缓存，防止溢出
-            sqlSession.clearCache();
+            //清理缓存，防止溢出
+            //sqlSession.clearCache();
         } catch (Exception e) {
             //异常回滚
             sqlSession.rollback();
