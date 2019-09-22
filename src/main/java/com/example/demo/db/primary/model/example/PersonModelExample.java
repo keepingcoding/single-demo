@@ -3,7 +3,7 @@ package com.example.demo.db.primary.model.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonBeanExample {
+public class PersonModelExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -14,7 +14,7 @@ public class PersonBeanExample {
 
     protected int limitEnd = -1;
 
-    public PersonBeanExample() {
+    public PersonModelExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

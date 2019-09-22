@@ -2,38 +2,45 @@ package com.example.demo.db.primary.model;
 
 import java.io.Serializable;
 
-public class PersonBean implements Serializable {
+public class PersonModel implements Serializable {
     /**
+     * 主键
      * person.id
      */
     private Long id;
 
     /**
+     * 姓名
      * person.name
      */
     private String name;
 
     /**
+     * 年龄
      * person.age
      */
     private Byte age;
 
     /**
+     * 联系方式
      * person.phone
      */
     private String phone;
 
     /**
+     * 联系地址
      * person.address
      */
     private String address;
 
     /**
+     * 创建时间
      * person.created_time
      */
     private Long createdTime;
 
     /**
+     * 更新时间
      * person.updated_time
      */
     private Long updatedTime;
@@ -107,7 +114,7 @@ public class PersonBean implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        PersonBean other = (PersonBean) that;
+        PersonModel other = (PersonModel) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getAge() == null ? other.getAge() == null : this.getAge().equals(other.getAge()))

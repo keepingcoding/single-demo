@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.db.primary.dao.PersonBeanMapper">
-  <resultMap id="BaseResultMap" type="com.example.demo.db.primary.model.PersonBean">
+<mapper namespace="com.example.demo.db.primary.dao.PersonModelMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.db.primary.model.PersonModel">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="age" jdbcType="TINYINT" property="age" />
@@ -71,7 +71,7 @@
   <sql id="Base_Column_List">
     id, `name`, age, phone, address, created_time, updated_time
   </sql>
-  <select id="selectByExample" parameterType="com.example.demo.db.primary.model.example.PersonBeanExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.example.demo.db.primary.model.example.PersonModelExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -99,13 +99,13 @@
     delete from person
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.example.demo.db.primary.model.example.PersonBeanExample">
+  <delete id="deleteByExample" parameterType="com.example.demo.db.primary.model.example.PersonModelExample">
     delete from person
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.demo.db.primary.model.PersonBean">
+  <insert id="insert" parameterType="com.example.demo.db.primary.model.PersonModel">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -116,7 +116,7 @@
       #{address,jdbcType=VARCHAR}, #{createdTime,jdbcType=BIGINT}, #{updatedTime,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.db.primary.model.PersonBean">
+  <insert id="insertSelective" parameterType="com.example.demo.db.primary.model.PersonModel">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -162,7 +162,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.example.demo.db.primary.model.example.PersonBeanExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.example.demo.db.primary.model.example.PersonModelExample" resultType="java.lang.Long">
     select count(*) from person
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -210,7 +210,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.db.primary.model.PersonBean">
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.db.primary.model.PersonModel">
     update person
     <set>
       <if test="name != null">
@@ -234,7 +234,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.db.primary.model.PersonBean">
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.db.primary.model.PersonModel">
     update person
     set `name` = #{name,jdbcType=VARCHAR},
       age = #{age,jdbcType=TINYINT},
