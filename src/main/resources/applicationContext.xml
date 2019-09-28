@@ -12,13 +12,5 @@
     <import resource="spring-beanContext.xml"/>
     -->
 
-    <!-- RabbitMQ start -->
-
-    <!--
-    <import resource="spring-rabbit.xml"/>
-    <import resource="spring-rabbit-listener.xml"/>
-    -->
-
-    <!-- RabbitMQ end -->
 
 </beans>
