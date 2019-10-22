@@ -6,8 +6,8 @@
 	<Properties>
 		<Property name="base.package">com.example.demo</Property>
 		<Property name="log.level">${sys:log4j.log.level:-DEBUG}</Property>
-		<Property name="logfile.path">${sys:log4j.logfile.path:-/data/logs/access}/${artifactId}</Property>
-		<Property name="logfile.arch.path">${sys:log4j.logfile.path:-/data/logs/access}/${artifactId}/${date:yyyy-MM}</Property>
+		<Property name="logfile.path">${sys:log4j.logfile.path:-/data/logs/access}/@artifactId@</Property>
+		<Property name="logfile.arch.path">${sys:log4j.logfile.path:-/data/logs/access}/@artifactId@/${date:yyyy-MM}</Property>
 		<Property name="logfile.arch.suffix">%d{yyyy-MM-dd}-%i.log.gz</Property>
 		<Property name="logOut.pattern">%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${sys:PID} --- [%15.15t] %-40.40c{1.} : %m%n}</Property>
 		<Property name="logfile.pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] &lt;%c&gt; : %m%n</Property>
