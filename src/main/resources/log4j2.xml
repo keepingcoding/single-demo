@@ -28,11 +28,11 @@
 								 filePattern="${logfile.arch.path}/service-${logfile.arch.suffix}">
 			<PatternLayout pattern="${logfile.pattern}"/>
 			<Policies>
-				<!-- 基于时间的滚动策略(interval属性) -->
+				<!-- 基于时间的滚动策略(interval属性). The default value is 1. -->
 				<TimeBasedTriggeringPolicy />
 				<!-- 基于文件大小的滚动策略(size属性)：SizeBasedTriggeringPolicy -->
 			</Policies>
-
+			<!-- 用来指定同一个文件夹下最多有几个日志文件时开始删除最旧的，创建新的(通过max属性). The default value is 7. -->
 			<DefaultRolloverStrategy />
 		</RollingRandomAccessFile>
 
