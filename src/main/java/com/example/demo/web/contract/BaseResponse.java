@@ -2,64 +2,51 @@ package com.example.demo.web.contract;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author zzs
- * @date 2019/9/26 14:43
- */
 @Getter
 @Setter
+@Accessors(chain = true)
 public class BaseResponse<T> implements Serializable {
 
-    //状态码
-    private String statusCode = "200";
+    /** 调用成功与否 **/
+    private boolean success = true;
 
-    //状态描述
-    private String msg = "ok";
+    /** 业务处理代码 **/
+    private String resultCode = ServiceStatus.API_OK.getCode();
 
-    //业务处理代码
-    private String resultCode;
+    /** 状态描述 **/
+    private String resultMsg = "ok";
 
-    //业务模型对象
+    /** 业务模型对象 **/
     private T result;
 
-    //参数校验错误列表
+    /** 参数校验错误列表 **/
     private Map<String, List<String>> validationErrors;
 
-    public BaseResponse() {
+    /** 耗费时间 **/
+    private long costTime;
 
+    public BaseResponse() {
     }
 
     public BaseResponse(T result) {
         this.result = result;
     }
 
-    public BaseResponse(String statusCode, String msg) {
-        this.statusCode = statusCode;
-        this.msg = msg;
-    }
-
-    public BaseResponse(ServiceException e) {
-        this(e.getMessage(), e.getStatusCode(), e.getResultCode());
-    }
-
     public BaseResponse(Map<String, List<String>> validationErrors) {
-        this(ServiceException.PARAM_VERIFY_EXCEPTION, validationErrors);
-    }
-
-    public BaseResponse(ServiceException e, Map<String, List<String>> validationErrors) {
-        this(e);
+        this.success = false;
+        this.resultCode = ServiceStatus.VALIDATE_ERROR.getCode();
+        this.resultMsg = ServiceStatus.VALIDATE_ERROR.getDescription();
         this.validationErrors = validationErrors;
     }
 
-    public BaseResponse(String statusCode, String resultCode, String msg) {
-        this.statusCode = statusCode;
-        this.resultCode = resultCode;
-        this.msg = msg;
+    public long calcCostTime(long beginTime) {
+        this.costTime = System.currentTimeMillis() - beginTime;
+        return this.costTime;
     }
-
 }
