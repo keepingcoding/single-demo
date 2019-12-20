@@ -3,7 +3,10 @@ package com.example.demo.utils;
 import javax.validation.*;
 import java.util.*;
 
-public class ValidationUtil {
+/**
+ * 校验工具类
+ */
+public class ValidationUtils {
     public static <T> Map<String, List<String>> validator(T t, HashSet<String> skipFields) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
