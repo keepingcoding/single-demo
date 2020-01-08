@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -27,7 +28,9 @@ public class BroadcastController {
     @SendTo("/topic/getResponse")
     public String broadcast(@RequestParam String name) {
         log.info("receive a message = {}", name);
-        return "success";
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        return "success: " + sdf.format(now);
     }
 
     @RequestMapping("/sendToPage")
