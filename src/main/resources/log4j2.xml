@@ -49,6 +49,11 @@
 		<!-- additivity="false"只在自定义的Appender中进行输出 -->
 		<!-- Base Logger -->
 		<Logger name="${base.package}" level="${log.level}"></Logger>
+
+		<!-- 可通过 LoggerFactory.getLogger("syncGuestInfoLog"); 直接获取该日志对象 -->
+		<Logger name="syncGuestInfoLog" level="${log.level}" additivity="false">
+		</Logger>
+
 	</Loggers>
 	
 </Configuration>
