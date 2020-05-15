@@ -33,7 +33,13 @@
 				<!-- 基于文件大小的滚动策略(size属性)：SizeBasedTriggeringPolicy -->
 			</Policies>
 			<!-- 用来指定同一个文件夹下最多有几个日志文件时开始删除最旧的，创建新的(通过max属性). The default value is 7. -->
-			<DefaultRolloverStrategy />
+			<DefaultRolloverStrategy>
+				<!-- maxDepth:要访问的目录的最大级别数 -->
+				<Delete basePath="${logfile.path}" maxDepth="2">
+					<IfFileName glob="*/service-*.log.gz" />
+					<IfLastModified age="180d" />
+				</Delete>
+			</DefaultRolloverStrategy>
 		</RollingRandomAccessFile>
 
 	</Appenders>
